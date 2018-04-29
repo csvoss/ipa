@@ -21,6 +21,7 @@ data Phoneme
   | Stressed Stressedness Phoneme
   | ExplicitLength Length Phoneme
   | WithTone Tone Phoneme
+  | WithDiacritic Diacritic Phoneme
   deriving Eq
 
 data Place
@@ -94,6 +95,39 @@ data Tone
   | LowRising
   | RisingFalling
   deriving (Eq, Show)
+
+data Diacritic
+  = ExplicitVoicing Voicing
+  | Aspirated
+  | MoreRounded
+  | LessRounded
+  | Advanced
+  | Retracted
+  | Centralized
+  | MidCentralized
+  | Syllabic
+  | NonSyllabic
+  | Rhotacized
+  | Breathy
+  | Creaky
+  | Linguolabial
+  | Labialized
+  | Palatalized
+  | Velarized
+  | Pharyngealized
+  | Raised
+  | Lowered
+  | AdvancedTongueRoot
+  | RetractedTongueRoot
+  | DentalDiacritic
+  | Apical
+  | Laminal
+  | Nasalized
+  | NasalRelease
+  | LateralRelease
+  | NoAudibleRelease
+  deriving (Eq, Show)
+
 
 toUnicode :: Phoneme -> Maybe String
 toUnicode (PulmonicConsonant Voiceless Bilabial Plosive) = Just "p"
@@ -255,6 +289,39 @@ toUnicode (WithTone Falling p) = (++"̂") <$> toUnicode p
 toUnicode (WithTone HighRising p) = (++"᷄") <$> toUnicode p
 toUnicode (WithTone LowRising p) = (++"᷅") <$> toUnicode p
 toUnicode (WithTone RisingFalling p) = (++"᷈") <$> toUnicode p
+
+toUnicode (WithDiacritic d p) = (++(showDiacritic d)) <$> toUnicode p
+  where
+    showDiacritic (ExplicitVoicing Voiceless) = "\x0325"
+    showDiacritic (ExplicitVoicing Voiced) = "\x032C"
+    showDiacritic Aspirated = "\x02B0"
+    showDiacritic MoreRounded = "\x0339"
+    showDiacritic LessRounded = "\x031C"
+    showDiacritic Advanced = "\x031F"
+    showDiacritic Retracted = "\x0320"
+    showDiacritic Centralized = "\x0308"
+    showDiacritic MidCentralized = "\x033D"
+    showDiacritic Syllabic = "\x0329"
+    showDiacritic NonSyllabic = "\x032F"
+    showDiacritic Rhotacized = "\x02DE"
+    showDiacritic Breathy = "\x0324"
+    showDiacritic Creaky = "\x0330"
+    showDiacritic Linguolabial = "\x033C"
+    showDiacritic Labialized = "\x02B7"
+    showDiacritic Palatalized = "\x02B2"
+    showDiacritic Velarized = "\x02E0"
+    showDiacritic Pharyngealized = "\x02E4"
+    showDiacritic Raised = "\x031D"
+    showDiacritic Lowered = "\x031E"
+    showDiacritic AdvancedTongueRoot = "\x0318"
+    showDiacritic RetractedTongueRoot = "\x0319"
+    showDiacritic DentalDiacritic = "\x032A"
+    showDiacritic Apical = "\x033A"
+    showDiacritic Laminal = "\x033B"
+    showDiacritic Nasalized = "\x0303"
+    showDiacritic NasalRelease = "\x207F"
+    showDiacritic LateralRelease = "\x2E1"
+    showDiacritic NoAudibleRelease = "\x031A"
 
 instance Show Phoneme where
   show p = '/' : fromJust (toUnicode p) ++ "/"
