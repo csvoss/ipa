@@ -1,14 +1,19 @@
--- | This module represents everything which a user could defensibly
--- write using the International Phonetic Alphabet.
+-- | This module represents phonemes as written in the International Phonetic
+-- Alphabet, even if those phonemes are nonsensical from a semantic perspective.
+-- If it would be defensible to write it using the IPA symbols, this module will
+-- allow it.
 --
--- For example, p̪ (‹p› along with the dental diacritic) is nonsensical
--- as a phoneme, but is defensible as a piece of text that could
--- be written using IPA.
+-- For example, p̪ (‹p› along with the dental diacritic) is nonsensical as a
+-- phoneme, but is defensible as a piece of text that could be written using
+-- IPA.
 --
 -- Using the definitions in this module, one would represent p̪ as:
 --
 -- >>> WithDiacritic DentalDiacritic (PulmonicConsonant Voiceless Bilabial Plosive)
 -- /p̪/
+--
+--
+-- You can nest pretty deeply.
 --
 -- >>> Affricate (PulmonicConsonant Voiceless Alveolar Plosive) (PulmonicConsonant Voiceless Postalveolar Fricative)
 -- /t͡ʃ/
