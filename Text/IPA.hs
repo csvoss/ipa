@@ -274,21 +274,25 @@ toUnicode (Vowel _ _ _) = Nothing
 toUnicode (Stressed Primary p) = ("ˈ"++) <$> toUnicode p
 toUnicode (Stressed Secondary p) = ("ˌ"++) <$> toUnicode p
 
-toUnicode (ExplicitLength Long p) = (++"ː") <$> toUnicode p
-toUnicode (ExplicitLength HalfLong p) = (++"ˑ") <$> toUnicode p
-toUnicode (ExplicitLength Short p) = toUnicode p
-toUnicode (ExplicitLength ExtraShort p) = (++"̆") <$> toUnicode p
+toUnicode (ExplicitLength l p) = (++(showLength l)) <$> toUnicode p
+  where
+    showLength Long = "ː"
+    showLength HalfLong = "ˑ"
+    showLength Short = ""
+    showLength ExtraShort = "\x0306"
 
-toUnicode (WithTone ExtraHigh p) = (++"̋") <$> toUnicode p
-toUnicode (WithTone High p) = (++"́") <$> toUnicode p
-toUnicode (WithTone MidTone p) = (++"̄") <$> toUnicode p
-toUnicode (WithTone Low p) = (++"̀") <$> toUnicode p
-toUnicode (WithTone ExtraLow p) = (++"̏") <$> toUnicode p
-toUnicode (WithTone Rising p) = (++"̌") <$> toUnicode p
-toUnicode (WithTone Falling p) = (++"̂") <$> toUnicode p
-toUnicode (WithTone HighRising p) = (++"᷄") <$> toUnicode p
-toUnicode (WithTone LowRising p) = (++"᷅") <$> toUnicode p
-toUnicode (WithTone RisingFalling p) = (++"᷈") <$> toUnicode p
+toUnicode (WithTone t p) = (++(showTone t)) <$> toUnicode p
+  where
+    showTone ExtraHigh = "\x030B"
+    showTone High = "\x0301"
+    showTone MidTone = "\x0304"
+    showTone Low = "\x0300"
+    showTone ExtraLow = "\x030F"
+    showTone Rising = "\x030C"
+    showTone Falling = "\x0302"
+    showTone HighRising = "\x1DC4"
+    showTone LowRising = "\x1DC5"
+    showTone RisingFalling = "\x1DC8"
 
 toUnicode (WithDiacritic d p) = (++(showDiacritic d)) <$> toUnicode p
   where
