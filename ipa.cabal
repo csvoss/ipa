@@ -1,0 +1,19 @@
+name:                ipa
+version:             0.0.0
+synopsis:            International Phonetic Alphabet library
+homepage:            https://github.com/csvoss/ipa
+license:             Apache-2.0
+license-file:        LICENSE
+author:              Chelsea Voss
+maintainer:          voss.chelsea@gmail.com
+category:            Text
+build-type:          Simple
+extra-source-files:  ChangeLog.md, README.md
+cabal-version:       >=1.10
+
+library
+  exposed-modules:     Text.IPA, Text.PhonemicTranscription
+  build-depends:       base >=4.11 && <4.12
+                     , megaparsec >=5.0.1 && <5.1
+  default-language:    Haskell2010
+
